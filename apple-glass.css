@@ -3,8 +3,11 @@
    Target: Emby Web 4.10
    v2: flat-at-rest cards w/ hover depth, glass segmented tabs,
        capsule search, thin rounded scrollbars.
-   v3: FIX garbled icons (drop letter-spacing + icon-ligature guard);
-       restore Emby-native spacing (no list-row margins).
+   v3: dropped letter-spacing + added icon guard; restored list spacing.
+   v4: removed the SF-Pro font override entirely — it was shifting text
+       off-center in pills/buttons. Back to Emby's native InterVariable.
+       (The garbled top-right cast/sync icons are native Emby, not this
+       theme — it never touches .md-icon glyphs.)
    Install: Dashboard → Branding → Custom CSS → paste → Save → refresh.
    Scope: shape, material & typography only. Leaves Emby's accent
    color and layout intact. No external dependencies (uses the
@@ -25,27 +28,12 @@
   --ag-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-/* ---------- Typography: San Francisco ----------
-   NOTE: no letter-spacing here — it is inherited onto Material icon
-   ligatures and garbles them. Keep tracking at the browser default. */
-body, .page, html, button, input, textarea, select, .emby-button,
-.cardText, .listItemBodyText, .dialogContent, .headerButton {
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
-    "SF Pro Display", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* ---------- Icon-font guard ----------
-   Restore icon ligatures and normal tracking on every icon element.
-   Deliberately does NOT set font-family — Emby's own .md-icon rule owns
-   that, and forcing a name would break icons if it differs. */
-.md-icon, .material-icons, i.md-icon, [is="emby-icon"], .listItemIcon,
-.navMenuOptionIcon, .actionsheetMenuItemIcon, .cardImageIcon, .detailButton-icon {
-  letter-spacing: normal !important;
-  font-feature-settings: "liga" 1 !important;
-  -webkit-font-feature-settings: "liga" 1 !important;
-  font-variant-ligatures: normal !important;
-}
+/* ---------- Typography: leave Emby's native fonts alone ----------
+   Emby's UI is metrically built around InterVariable, and its icons use
+   'Material Symbols Rounded' via .md-icon (with !important). We deliberately
+   do NOT override the font: forcing SF Pro shifted text off-center inside
+   fixed-height pills/buttons, and any rule touching icon elements risks the
+   ligature glyphs. This theme is shape + material only. */
 
 /* ---------- Frosted top header ---------- */
 .skinHeader {
