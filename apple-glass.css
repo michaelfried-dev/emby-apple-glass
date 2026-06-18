@@ -1,5 +1,5 @@
 /* ============================================================
-   Apple Glass v2 — a rounded, frosted, San-Francisco theme for Emby
+   Apple Glass v5 — a rounded, frosted, monospace theme for Emby
    Target: Emby Web 4.10
    v2: flat-at-rest cards w/ hover depth, glass segmented tabs,
        capsule search, thin rounded scrollbars.
@@ -8,13 +8,16 @@
        off-center in pills/buttons. Back to Emby's native InterVariable.
        (The garbled top-right cast/sync icons are native Emby, not this
        theme — it never touches .md-icon glyphs.)
+   v5: Space Mono UI font (icon guard keeps .md-icon on Material Symbols);
+       tab labels flex-centered so they never sit off-center.
    Install: Dashboard → Branding → Custom CSS → paste → Save → refresh.
-   Scope: shape, material & typography only. Leaves Emby's accent
-   color and layout intact. No external dependencies (uses the
-   device's native SF font on Apple hardware).
+   Scope: shape, material, typography. Leaves Emby's accent + layout intact.
    ============================================================ */
 
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 :root {
+  --ag-font: 'Space Mono', ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --ag-r-sm: 10px;     /* inputs, small controls */
   --ag-r-md: 16px;     /* cards, posters, list rows */
   --ag-r-lg: 22px;     /* dialogs, sheets, OSD */
@@ -28,12 +31,22 @@
   --ag-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-/* ---------- Typography: leave Emby's native fonts alone ----------
-   Emby's UI is metrically built around InterVariable, and its icons use
-   'Material Symbols Rounded' via .md-icon (with !important). We deliberately
-   do NOT override the font: forcing SF Pro shifted text off-center inside
-   fixed-height pills/buttons, and any rule touching icon elements risks the
-   ligature glyphs. This theme is shape + material only. */
+/* ---------- Typography: Space Mono (monospace sans-serif) ----------
+   Applied to text + form/button elements; body inheritance covers the rest. */
+body, input, button, select, textarea,
+.emby-button, .emby-input, .emby-textarea, .emby-select,
+.cardText, .listItemBodyText, .sectionTitle, .navMenuOptionText, .dialog {
+  font-family: var(--ag-font) !important;
+}
+
+/* ICON GUARD — MUST stay immediately after the font rule above.
+   Header buttons carry BOTH .md-icon and .headerButton/.emby-button*, so two
+   !important font-family rules collide; with equal specificity, source order
+   wins. Re-asserting the icon font LAST guarantees glyphs never inherit the
+   text font — this is exactly what broke the cast/settings icons before. */
+.md-icon, [class*="md-icon"] {
+  font-family: 'Material Symbols Rounded' !important;
+}
 
 /* ---------- Frosted top header ---------- */
 .skinHeader {
@@ -194,6 +207,10 @@ input[type="search"], .searchfields-txtSearch {
   padding: 3px !important;
 }
 .emby-tab-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
   padding: 0.45em 1.15em !important;
   border-radius: var(--ag-r-pill) !important;
   transition: background .2s var(--ag-ease) !important;
