@@ -1,5 +1,5 @@
 /* ============================================================
-   Apple Glass v5 — a rounded, frosted, monospace theme for Emby
+   Apple Glass v6 — a rounded, frosted, monospace theme for Emby
    Target: Emby Web 4.10
    v2: flat-at-rest cards w/ hover depth, glass segmented tabs,
        capsule search, thin rounded scrollbars.
@@ -10,6 +10,7 @@
        theme — it never touches .md-icon glyphs.)
    v5: Space Mono UI font (icon guard keeps .md-icon on Material Symbols);
        tab labels flex-centered so they never sit off-center.
+   v6: flex-center Live TV guide filter chips (Space Mono sat low → clipped).
    Install: Dashboard → Branding → Custom CSS → paste → Save → refresh.
    Scope: shape, material, typography. Leaves Emby's accent + layout intact.
    ============================================================ */
@@ -218,6 +219,20 @@ input[type="search"], .searchfields-txtSearch {
 .emby-tab-button-active {
   background: rgba(255, 255, 255, 0.14) !important;
   box-shadow: var(--ag-shadow-sm) !important;
+}
+
+/* ---------- Live TV guide filter chips ----------
+   Same fix as the tabs: Space Mono's glyphs sit lower in the line box than
+   Inter, so in these tight .raised-mini chips (inside a scrollX row with
+   overflow-y:hidden) the text bottom clipped. Flex-center + line-height:1
+   re-centers the glyphs within the chip so nothing is cut off. */
+.guide-filter-button,
+.btnGuideCategory,
+.btnGuideTag {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
 }
 
 /* ---------- Thin, rounded Apple-style scrollbars ---------- */
